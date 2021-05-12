@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "strict": true,  
+    "outDir": "./dist",
+    "allowJs": true,
+    "target": "es5",
+    "esModuleInterop": true,
+    "module": "commonjs",
+  },
+  "include": [
+    "./src/**/*"
+  ]
+}
