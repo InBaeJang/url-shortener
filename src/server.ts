@@ -5,40 +5,25 @@ const port = process.env.TS_NODE_DEV === 'true'
   ? 3033 // for dev & test
   : 3004 // for production (must be absolute)
 
-import PGClient from './pg'
-const Query = require('pg').Query
-
 const app: Application = express();
 app.use(express.json());
 app.use("/", index);
 app.use("/api/url", url);
 
 app.get('/', (req: Request, res: Response) => {
-    console.log('Hello World!')
-
-  const query = new Query("SELECT * FROM url")
-  PGClient.query(query)
-  const rows:any[] = []; /** * row에서 데이터 가져오고 end에서 검색할 때 발생한 각종 정보, error는 오류 발생시 */
-  query.on("row", (row:any) => {
-    rows.push(row);
-  });
-  query.on('end', () => {
-    console.log(rows);
-    console.log('query done')
-    // res.send(rows);
-    // res.status(200).end();
-  });
-  query.on('error', (err:any) => {
-    console.error(err.stack)
-  });
-
-    res.send('Hello World!')
+  console.log('Hello World!')
+  res.send('Hello World!')
 })
 
-app.get('/read', function(req, res, next) {
+app.listen(port, () =>{
+  console.log(`Url-shortener server ready at: http://localhost:${port}`)
 });
 
-app.listen(port, () => console.log(`Url-shortener server ready at: http://localhost:${port}`));
-
-// TODO DB Connect, 조회
+// TODO env file 분리 - config.ts
+// TODO PG connection pool 적용
+// TODO Node.js ORM Sequalize 적용 - url table id를 제거 만들어진 코드를 id로 사용하자 - base62
+//       ID(Integer), Long URL(String), Short URL(String) 칼럼
+//       https://metalkin.tistory.com/53
+// TODO short url 생성 -> hash 함수 만들어서 4~5자로 축소 가능(숫자 + 알파벳 대/소문자)
+// TODO url 조회
 // TODO Http Status Code 적용
