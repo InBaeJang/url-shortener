@@ -1,6 +1,10 @@
 import express, { Application, Request, Response } from "express";
 import index from './routes/index'
 import url from './routes/url'
+import { connectPG } from './pg'
+import dotenv from 'dotenv'
+dotenv.config()
+
 const port = process.env.TS_NODE_DEV === 'true'
   ? 3033 // for dev & test
   : 3004 // for production (must be absolute)
@@ -14,8 +18,8 @@ app.get('/', (req: Request, res: Response) => {
   console.log('Hello World!')
   res.send('Hello World!')
 })
-
 app.listen(port, () =>{
+  connectPG()
   console.log(`Url-shortener server ready at: http://localhost:${port}`)
 });
 

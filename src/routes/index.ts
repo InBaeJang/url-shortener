@@ -5,7 +5,7 @@ import express, {
 } from "express";
 const router: Router = express.Router();
 
-import PGClient from '../pg'
+import {pgClient} from '../pg'
 const Query = require('pg').Query
 
 const reDirector = async (req: Request, res: Response) => {
