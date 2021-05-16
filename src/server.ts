@@ -23,8 +23,8 @@ app.listen(port, () =>{
   console.log(`Url-shortener server ready at: http://localhost:${port}`)
 });
 
-// TODO env file 분리 - config.ts
-// TODO PG connection pool 적용
+// (완료) env file 분리
+// (완료) PG connection pool 적용
 // TODO Node.js ORM Sequalize 적용 - url table id를 제거 만들어진 코드를 id로 사용하자 - base62
 //       ID(Integer), Long URL(String), Short URL(String) 칼럼
 //       https://metalkin.tistory.com/53

@@ -1,18 +1,21 @@
-import { Client } from "pg";
+import { Pool } from 'pg';
+import dotenv from 'dotenv'
+dotenv.config()
 
-export const pgClient = new Client({
-  host : process.env.DB_HOSTNAME,
+export const pgPool = new Pool({
+  host: process.env.DB_HOSTNAME,
   database : process.env.DB_NAME,
-  user : process.env.DB_USERNAME,
+  user: process.env.DB_USERNAME,
   password : process.env.DB_PASSWORD,
-  port : 5432,
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
 })
 
 export function connectPG(){
-  console.log(process.env)
-  pgClient.connect(err => {
+  pgPool.connect(err => {
     if (err) {
-      console.error('connection error', err.stack)
+      console.error('connection error: ', err.stack)
     } else {
       console.log('connection success!')
     }
