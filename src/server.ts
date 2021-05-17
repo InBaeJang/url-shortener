@@ -1,4 +1,6 @@
-import express, { Application, Request, Response } from "express";
+import express, { Application, NextFunction, Request, Response } from "express";
+import AppError from './shared/errors/AppError';
+import HttpStatus from 'http-status-codes'
 import index from './routes/index'
 import url from './routes/url'
 import { connectPG } from './pg'
@@ -13,6 +15,19 @@ const app: Application = express();
 app.use(express.json());
 app.use("/", index);
 app.use("/api/url", url);
+app.use((err: Error, req: Request, res: Response, _: NextFunction) => {
+  if (err instanceof AppError) {
+    return res.status(err.statusCode).json({
+      status: 'error',
+      message: err.message,
+    });
+  }
+  console.error(err);
+  return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+    status: 'error',
+    message: 'Internal server error',
+  });
+});
 
 app.get('/', (req: Request, res: Response) => {
   console.log('Hello World!')

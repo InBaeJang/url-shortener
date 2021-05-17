@@ -4,6 +4,7 @@ import express, {
   Router,
 } from "express";
 const router: Router = express.Router();
+import HttpStatus from 'http-status-codes'
 
 import {pgPool} from '../pg'
 const Query = require('pg').Query
@@ -38,7 +39,10 @@ const reDirector = async (req: Request, res: Response) => {
     // }
   } catch (err) {
     console.error(err);
-    res.status(500).json("Server error");
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      status: 'error',
+      message: err.message,
+    });
   }
 };
 

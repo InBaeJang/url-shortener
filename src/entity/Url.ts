@@ -4,6 +4,9 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 export class Url {
 
     @PrimaryGeneratedColumn()
+    id: number;
+
+    @Column()
     urlCode: string;
 
     @Column()
@@ -12,7 +15,8 @@ export class Url {
     @Column()
     shortUrl: string;
 
-    constructor(urlCode:string, longUrl: string, shortUrl: string){
+    constructor(id:number, urlCode:string, longUrl: string, shortUrl: string){
+      this.id = id
       this.urlCode = urlCode
       this.longUrl = longUrl
       this.shortUrl = shortUrl
