@@ -11,7 +11,7 @@ const devConfig = [{
   entities: ['src/entity/**/*.ts'],
   migrations: ['src/migration/**/*.ts'],
   cli: {
-    entitiesDir: 'src/entity',
+    'entitiesDir': 'src/entity',
     'migrationsDir': 'src/migration',
     'subscribersDir': 'src/subscriber'
   },
@@ -28,7 +28,7 @@ const prodConfig = [{
   entities: ['src/entity/**/*.ts'],
   migrations: ['src/migration/**/*.ts'],
   cli: {
-    entitiesDir: 'src/entity',
+    'entitiesDir': 'src/entity',
     'migrationsDir': 'src/migration',
     'subscribersDir': 'src/subscriber'
   },
