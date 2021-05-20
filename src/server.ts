@@ -1,8 +1,8 @@
 import express, { Application, NextFunction, Request, Response } from "express";
-import AppError from './shared/errors/AppError';
+import AppError from '@errors/AppError';
 import HttpStatus from 'http-status-codes'
-import index from './routes/index'
-import url from './routes/url'
+import index from '@routes/index'
+import url from '@routes/url'
 import { connectPG } from './pg'
 import dotenv from 'dotenv'
 dotenv.config()
@@ -35,7 +35,7 @@ app.get('/', (req: Request, res: Response) => {
 })
 
 app.listen(port, () =>{
-  connectPG()
+  // connectPG()
   console.log(`Url-shortener server ready at: http://localhost:${port}`)
 });
 
