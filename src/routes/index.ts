@@ -6,9 +6,6 @@ import express, {
 const router: Router = express.Router();
 import HttpStatus from 'http-status-codes'
 
-import {pgPool} from '../pg'
-const Query = require('pg').Query
-
 const reDirector = async (req: Request, res: Response) => {
   try {
 
