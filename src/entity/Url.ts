@@ -1,9 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, PrimaryColumn } from "typeorm";
 
 @Entity()
-export class Url extends BaseEntity {
+export class Url{
 
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   id!: string;
 
   @Column()
@@ -19,15 +19,15 @@ export class Url extends BaseEntity {
   //   this.shortUrl = shortUrl
   // }
 
-  static findByLongUrl(longUrl:string){
-    return this.createQueryBuilder("url")
-        .where("url.longUrl = :longUrl", { longUrl })
-        .getMany();
-  }
+  // static findByLongUrl(longUrl:string){
+  //   return this.createQueryBuilder("url")
+  //       .where("url.longUrl = :longUrl", { longUrl })
+  //       .getMany();
+  // }
 
-  static findByCode(code: string) {
-    return this.createQueryBuilder("url")
-        .where("url.code = :code", { code })
-        .getMany();
-  }
+  // static findByCode(code: string) {
+  //   return this.createQueryBuilder("url")
+  //       .where("url.code = :code", { code })
+  //       .getMany();
+  // }
 }

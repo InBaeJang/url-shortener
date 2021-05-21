@@ -34,7 +34,6 @@ app.get('/', (req: Request, res: Response) => {
   console.log('Hello World!')
   res.send('Hello World!')
 })
-import { Url } from 'entity/Url';
 
 app.listen(port, async () =>{
   const connection = await createTypeormConn()
@@ -46,15 +45,3 @@ app.listen(port, async () =>{
   // console.log("findUrl: " + findUrl)
   console.log(`Url-shortener server ready at: http://localhost:${port}`)
 });
-
-// (완료) env file 분리
-// (완료) PG connection pool 적용
-// (완료) typescript package path alias 
-// (완료) Http Status Code 적용
-// (완료) shorten url logic 구성
-// (완료) remove typescript package path alias(배포 시 경로 추적 불가 문제 발생)
-//       remove pg connection pool & set connection to postgres db with typeorm
-// TODO url table id에 code 저장 code는 cuid에서 생성된 id에서 뒷자리 4개를 뽑아서 사용
-// TODO pg 제거 및 Node.js typeORM 적용
-// TODO url 조회
-// TODO jtest 사용해서 테스트 코드 작성해보기
