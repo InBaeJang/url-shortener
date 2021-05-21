@@ -7,7 +7,7 @@
     "dev": "NODE_ENV=development nodemon --exec ts-node -r tsconfig-paths/register --files src/server.ts",
     "clean": "rm -rf dist",
     "build": "npm -s run clean && tsc --build tsconfig.json",
-    "start": "node dist/server.js"
+    "start": "NODE_ENV=production node dist/server.js"
   },
   "keywords": [],
   "author": "",

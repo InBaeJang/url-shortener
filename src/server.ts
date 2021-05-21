@@ -1,9 +1,10 @@
+import "reflect-metadata";
 import express, { Application, NextFunction, Request, Response } from "express";
-import AppError from '@errors/AppError';
+import AppError from './AppError';
 import HttpStatus from 'http-status-codes'
-import index from '@routes/index'
-import url from '@routes/url'
-import { connectPG } from './pg'
+import { createTypeormConn } from './connection';
+import index from './routes/index'
+import url from './routes/url'
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -33,9 +34,16 @@ app.get('/', (req: Request, res: Response) => {
   console.log('Hello World!')
   res.send('Hello World!')
 })
+import { Url } from 'entity/Url';
 
-app.listen(port, () =>{
-  // connectPG()
+app.listen(port, async () =>{
+  const connection = await createTypeormConn()
+  console.log(connection.isConnected)
+  // console.log(await connection.manager.find(Url))
+
+  // const longUrl = "https://floev.com"
+  // const findUrl = await Url.findByLongUrl(longUrl)
+  // console.log("findUrl: " + findUrl)
   console.log(`Url-shortener server ready at: http://localhost:${port}`)
 });
 
@@ -44,6 +52,8 @@ app.listen(port, () =>{
 // (완료) typescript package path alias 
 // (완료) Http Status Code 적용
 // (완료) shorten url logic 구성
+// (완료) remove typescript package path alias(배포 시 경로 추적 불가 문제 발생)
+//       remove pg connection pool & set connection to postgres db with typeorm
 // TODO url table id에 code 저장 code는 cuid에서 생성된 id에서 뒷자리 4개를 뽑아서 사용
 // TODO pg 제거 및 Node.js typeORM 적용
 // TODO url 조회
