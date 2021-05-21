@@ -7,18 +7,13 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "strict": true,  
-    "outDir": "./dist",
+    "outDir": "dist",
     "allowJs": true,
     "esModuleInterop": true,
     "sourceMap": true,
-    "baseUrl": ".",
-    "paths": {
-      "@errors/*": ["src/errors/*"],
-      "@entity/*": ["src/entity/*"],
-      "@routes/*": ["src/routes/*"]
-    },
+    "baseUrl": "./src"
   },
   "include": [
-    "./src/**/*"
+    "src/**/*"
   ]
 }
