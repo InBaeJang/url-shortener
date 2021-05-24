@@ -2,6 +2,15 @@
 
 - ormconfig.example.json -> ormconfig.json으로 변경
 - username, password, database 기입 후 run
+- typeorm create table
+
+```bash
+typeorm migration:create -n [MigrationName]
+```
+
+```bash
+npm run migration:run
+```
 
 ## Todo list
 

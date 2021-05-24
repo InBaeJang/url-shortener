@@ -3,7 +3,6 @@ import express, {
   Response,
   Router,
 } from "express";
-import validUrl from "valid-url";
 import cuid from 'cuid'
 import HttpStatus from 'http-status-codes'
 import { Url } from '../entity/Url';
@@ -20,24 +19,24 @@ router.post("/shorten", async (req: Request, res: Response) =>{
   const regex = new RegExp(expression);
   if (longUrl.match(regex)) {
     try {
-      const findUrl = await Url.findByLongUrl(longUrl)
+      // const findUrl = await Url.findByLongUrl(longUrl)
 
-      if(findUrl){
-        res.json(findUrl)
+      // if(findUrl){
+      //   res.json(findUrl)
 
-      }else{
-        const code: string = cuid().slice(-4)
+      // }else{
+      //   const code: string = cuid().slice(-4)
 
-        // code가 중복되지 않는지 검사 필요
+      //   // code가 중복되지 않는지 검사 필요
 
-        const url = new Url()
-        url.id = code
-        url.longUrl = longUrl
-        url.shortUrl = baseUrl + "/" + code
-        await url.save();
+      //   const url = new Url()
+      //   url.id = code
+      //   url.longUrl = longUrl
+      //   url.shortUrl = baseUrl + "/" + code
+      //   await url.save();
 
-        res.json(url);
-      }
+      //   res.json(url);
+      // }
 
       // let url = await prisma.url.findUnique({ where: { longUrl } });
 
