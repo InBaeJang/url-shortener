@@ -1,49 +1,53 @@
-import 'dotenv/config';
-import 'reflect-metadata';
+import "reflect-metadata";
+import { createConnection } from "typeorm";
 import express, { Application, NextFunction, Request, Response } from "express";
-import AppError from './AppError';
+import { Routes } from "./routes";
+import { Url } from "./entity/Url";
 import HttpStatus from 'http-status-codes'
-import { createTypeormConnection } from './connection';
-import index from './routes/index'
-import url from './routes/url'
-
 const port = process.env.NODE_ENV === 'development'
   ? 3033 // for dev & test
   : 3004 // for production (must be absolute)
-  
-const app: Application = express();
-app.use(express.json());
-app.use("/", index);
-app.use("/api/url", url);
-app.use((err: Error, req: Request, res: Response, _: NextFunction) => {
-  if (err instanceof AppError) {
-    return res.status(err.statusCode).json({
-      status: 'error',
-      message: err.message,
+
+createConnection().then(async connection => {
+  const app: Application = express();
+  app.use(express.json());
+  // app.use("/", index);
+  // app.use("/api/url", url);
+
+  app.get('/', (req: Request, res: Response) => {
+    console.log('Hello World!')
+    res.send('Hello World!')
+  })
+  // register express routes from defined application routes
+  Routes.forEach(route => {
+    (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
+      const result = (new (route.controller as any))[route.action](req, res, next);
+      if (result instanceof Promise) {
+        result.then(result => result !== null && result !== undefined ? res.send(result) : undefined);
+
+      } else if (result !== null && result !== undefined) {
+        res.json(result);
+      }
     });
-  }
-  console.error(err);
-  return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-    status: 'error',
-    message: 'Internal server error',
   });
-});
 
-app.get('/', (req: Request, res: Response) => {
-  console.log('Hello World!')
-  res.send('Hello World!')
-})
 
-app.listen(port, async () =>{
-  console.log(`Url-shortener server ready at: http://localhost:${port}`)
-});
+  app.listen(port, async () => {
+    console.log(`Url-shortener server ready at: http://localhost:${port}`)
+  });
 
-(async () => {
-  const connection = await createTypeormConnection()
-  console.log(connection.isConnected)
-  // console.log(await connection.manager.find(Url))
+  // // insert new users for test
+  // await connection.manager.save(connection.manager.create(User, {
+  //   firstName: "Timber",
+  //   lastName: "Saw",
+  //   age: 27
+  // }));
+  // await connection.manager.save(connection.manager.create(User, {
+  //   firstName: "Phantom",
+  //   lastName: "Assassin",
+  //   age: 24
+  // }));
 
-  // const longUrl = "https://floev.com"
-  // const findUrl = await Url.findByLongUrl(longUrl)
-  // console.log("findUrl: " + findUrl)
-})();
+  console.log("Express server ready. Open http://localhost:3000/users to see results");
+
+}).catch(error => console.error(error));
