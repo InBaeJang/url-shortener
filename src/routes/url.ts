@@ -6,20 +6,27 @@ import express, {
 import cuid from 'cuid'
 import HttpStatus from 'http-status-codes'
 import { Url } from '../entity/Url';
+import { getRepository } from 'typeorm';
+// const urlRepository = getRepository(Url);
+import {test} from '../repository/urlRepository'
+
 const router: Router = express.Router();
-const baseUrl: string = process.env.TS_NODE_DEV === 'true'
+const baseUrl: string = process.env.NODE_DEV === 'development'
 ? "http://localhost:3033" // for dev & test
 : "http://localhost:3004" // for production (must be absolute)
 
 router.post("/shorten", async (req: Request, res: Response) =>{
   console.log("  longUrl: " + req.body.longUrl)
   const longUrl: string = req.body.longUrl;
+  // console.log(Url.findOne({longUrl: longUrl}))
+  await test()
 
   const expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
   const regex = new RegExp(expression);
   if (longUrl.match(regex)) {
     try {
-      // const findUrl = await Url.findByLongUrl(longUrl)
+      // const findUrl = await urlRepository.findOne({})
+      // console.log("findUrl: " + findUrl)
 
       // if(findUrl){
       //   res.json(findUrl)
@@ -55,6 +62,9 @@ router.post("/shorten", async (req: Request, res: Response) =>{
 
       //   res.json(url);
       // }
+      res.json({
+        url: longUrl
+      })
     } catch (err) {
       console.error(err.message)
       res.status(HttpStatus.INTERNAL_SERVER_ERROR).json("Server Error");

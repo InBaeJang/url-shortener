@@ -1,17 +1,16 @@
-import "reflect-metadata";
+import 'dotenv/config';
+import 'reflect-metadata';
 import express, { Application, NextFunction, Request, Response } from "express";
 import AppError from './AppError';
 import HttpStatus from 'http-status-codes'
-import { createTypeormConn } from './connection';
+import { createTypeormConnection } from './connection';
 import index from './routes/index'
 import url from './routes/url'
-import dotenv from 'dotenv'
-dotenv.config()
 
-const port = process.env.TS_NODE_DEV === 'true'
+const port = process.env.NODE_ENV === 'development'
   ? 3033 // for dev & test
   : 3004 // for production (must be absolute)
-
+  
 const app: Application = express();
 app.use(express.json());
 app.use("/", index);
@@ -36,12 +35,15 @@ app.get('/', (req: Request, res: Response) => {
 })
 
 app.listen(port, async () =>{
-  const connection = await createTypeormConn()
+  console.log(`Url-shortener server ready at: http://localhost:${port}`)
+});
+
+(async () => {
+  const connection = await createTypeormConnection()
   console.log(connection.isConnected)
   // console.log(await connection.manager.find(Url))
 
   // const longUrl = "https://floev.com"
   // const findUrl = await Url.findByLongUrl(longUrl)
   // console.log("findUrl: " + findUrl)
-  console.log(`Url-shortener server ready at: http://localhost:${port}`)
-});
+})();

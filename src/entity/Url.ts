@@ -1,33 +1,17 @@
-import { Entity, PrimaryGeneratedColumn, Column, PrimaryColumn } from "typeorm";
+import 'reflect-metadata';
+import { Entity, PrimaryGeneratedColumn, Column, PrimaryColumn, BaseEntity } from "typeorm";
 
 @Entity()
-export class Url{
+export class Url extends BaseEntity {
 
   @PrimaryColumn()
   id!: string;
 
-  @Column()
+  @Column({
+    unique: true,
+  })
   longUrl!: string;
 
   @Column()
   shortUrl!: string;
-
-  // constructor(id:number, urlCode:string, longUrl: string, shortUrl: string){
-  //   this.id = id
-  //   this.urlCode = urlCode
-  //   this.longUrl = longUrl
-  //   this.shortUrl = shortUrl
-  // }
-
-  // static findByLongUrl(longUrl:string){
-  //   return this.createQueryBuilder("url")
-  //       .where("url.longUrl = :longUrl", { longUrl })
-  //       .getMany();
-  // }
-
-  // static findByCode(code: string) {
-  //   return this.createQueryBuilder("url")
-  //       .where("url.code = :code", { code })
-  //       .getMany();
-  // }
 }
