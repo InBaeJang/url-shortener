@@ -1,8 +1,8 @@
 import 'reflect-metadata';
-import { Entity, PrimaryGeneratedColumn, Column, PrimaryColumn, BaseEntity } from "typeorm";
+import { Entity, Column, PrimaryColumn } from "typeorm";
 
 @Entity()
-export class Url extends BaseEntity {
+export class Url{
 
   @PrimaryColumn()
   id!: string;
