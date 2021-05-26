@@ -5,9 +5,7 @@ export const Routes = [{
   route: "/url/shorten",
   controller: UrlController,
   action: "shortenUrl"
-},
-
-{
+}, {
   method: "get",
   route: "/url",
   controller: UrlController,

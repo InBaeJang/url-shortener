@@ -18,14 +18,17 @@ export class UrlController {
     if (longUrl.match(regex)) {
       try {
 
-        // 이건 아이디로 찾는 것 -> longUrl로 찾는 걸 레파지토리에서 구현해야함
-        let url = await this.urlRepository.findOne(longUrl);
-        console.log("  url: " + JSON.stringify(url))
+        let url
+        let urls = await this.urlRepository.find({
+          where: {
+            longUrl: longUrl
+          }
+        });
 
-        if (!url) {
+        if (urls.length > 0) {
+          url = urls[0]
+        } else {
           const code: string = cuid().slice(-4)
-          console.log("  code: " + code)
-
           url = new Url()
           url.id = code
           url.longUrl = longUrl
@@ -33,7 +36,7 @@ export class UrlController {
           await this.urlRepository.save(url)
         }
 
-        response.json(url)
+        response.status(HttpStatus.OK).json(url)
       } catch (err) {
         console.error(err.message)
         response.status(HttpStatus.INTERNAL_SERVER_ERROR).json("Server Error");
