@@ -23,7 +23,15 @@ npm run migration:run
       remove pg connection pool & set connection to postgres db with typeorm
 - [x] db connection 이후 앱 실행하기 [참고](https://github.com/andregardi/jwt-express-typeorm)
 - [x] Entity 정보를 가지고 table을 생성하는 기능은 migration -> url 테이블 생성하기
-- [x] url table id에 code 저장 code는 cuid에서 생성된 id에서 뒷자리 4개를 뽑아서 사용 - [ ] url 조회 [참고](https://typeorm.io/#/find-options)
+- [x] url table id에 code 저장 code는 cuid에서 생성된 id에서 뒷자리 4개를 뽑아서 사용
+- [x] url 조회 [참고](https://typeorm.io/#/find-options)
+- [ ] short url로 접속 시 longUrl로 redirecting하기
 - [ ] jtest 사용해서 테스트 코드 작성해보기
 
 - 참고: [express-typescript-typeorm-boilerplate](https://github.com/mkosir/express-typescript-typeorm-boilerplate)
+
+<!-- # PostgreSQL
+POSTGRES_HOST=localhost
+POSTGRES_USER=inbader
+POSTGRES_PASS=yellowice3337
+POSTGRES_NAME=postgres -->

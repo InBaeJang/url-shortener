@@ -9,8 +9,6 @@ const port = process.env.NODE_ENV === 'development'
 createConnection().then(async connection => {
   const app: Application = express();
   app.use(express.json());
-  // app.use("/", index);
-  // app.use("/api/url", url);
 
   app.get('/', (req: Request, res: Response) => {
     console.log('Hello World!')
@@ -18,7 +16,7 @@ createConnection().then(async connection => {
   })
   // register express routes from defined application routes
   Routes.forEach(route => {
-    (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
+    (app as any)[route.method](route.route, (req: Request, res: Response, next: NextFunction) => {
       const result = (new (route.controller as any))[route.action](req, res, next);
       if (result instanceof Promise) {
         result.then(result => result !== null && result !== undefined ? res.send(result) : undefined);

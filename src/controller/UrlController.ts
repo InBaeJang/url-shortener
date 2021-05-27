@@ -9,17 +9,17 @@ export class UrlController {
 
   private urlRepository = getRepository(Url);
 
-  async shortenUrl(request: Request, response: Response, next: NextFunction) {
-    console.log("  longUrl: " + request.body.longUrl)
-    const longUrl: string = request.body.longUrl;
+  async shortenUrl(req: Request, res: Response, next: NextFunction) {
+    console.log("  longUrl: " + req.body.longUrl)
+    const longUrl: string = req.body.longUrl;
 
     const expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
     const regex = new RegExp(expression);
     if (longUrl.match(regex)) {
       try {
 
-        let url
-        let urls = await this.urlRepository.find({
+        let url: Url
+        let urls: Url[] = await this.urlRepository.find({
           where: {
             longUrl: longUrl
           }
@@ -35,33 +35,32 @@ export class UrlController {
           url.shortUrl = baseUrl + "/" + code
           await this.urlRepository.save(url)
         }
-
-        response.status(HttpStatus.OK).json(url)
+        res.status(HttpStatus.OK).json(url)
       } catch (err) {
         console.error(err.message)
-        response.status(HttpStatus.INTERNAL_SERVER_ERROR).json("Server Error");
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR).json("Server Error");
       }
     } else {
-      response.status(HttpStatus.BAD_REQUEST).json("Invalid long Url");
+      res.status(HttpStatus.BAD_REQUEST).json("Invalid long Url");
     }
   }
 
-  async all(request: Request, response: Response, next: NextFunction) {
-    return this.urlRepository.find();
-  }
+  async redirect(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = req.params.id
+      const url = await this.urlRepository.findOne(id)
 
-  async one(request: Request, response: Response, next: NextFunction) {
-    return this.urlRepository.findOne(request.params.id);
+      if (url) {
+        return res.redirect(url.longUrl)
+      } else {
+        return res.status(HttpStatus.NOT_FOUND).json("Url Not found")
+      }
+    } catch (err) {
+      console.error(err);
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+        status: 'error',
+        message: err.message,
+      });
+    }
   }
-
-  async save(request: Request, response: Response, next: NextFunction) {
-    return this.urlRepository.save(request.body);
-  }
-
-  async remove(request: Request, response: Response, next: NextFunction) {
-    let urlToRemove = await this.urlRepository.findOne(request.params.id);
-    if (urlToRemove)
-      await this.urlRepository.remove(urlToRemove);
-  }
-
 }
