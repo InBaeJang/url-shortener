@@ -26,6 +26,8 @@ npm run migration:run
 - [x] url table id에 code 저장 code는 cuid에서 생성된 id에서 뒷자리 4개를 뽑아서 사용
 - [x] url 조회 [참고](https://typeorm.io/#/find-options)
 - [x] short url로 접속 시 longUrl로 redirecting하기
-- [ ] jtest 사용해서 테스트 코드 작성해보기
+- [x] jest config
+- [ ] jest로 url controller 테스트 코드 작성해보기
+- [ ] u.inbaedid.com으로 docker 배포 해보기
 
 - 참고: [express-typescript-typeorm-boilerplate](https://github.com/mkosir/express-typescript-typeorm-boilerplate)
