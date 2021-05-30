@@ -27,7 +27,6 @@ npm run migration:run
 - [x] url 조회 [참고](https://typeorm.io/#/find-options)
 - [x] short url로 접속 시 longUrl로 redirecting하기
 - [x] jest config
-- [ ] jest로 url controller 테스트 코드 작성해보기
 - [ ] u.inbaedid.com으로 docker 배포 해보기
 
 - 참고: [express-typescript-typeorm-boilerplate](https://github.com/mkosir/express-typescript-typeorm-boilerplate)
